@@ -26,22 +26,23 @@ def bytelist(plaintext): #convierte de str a una lista de bytes
 	return list(str.encode(plaintext))
 
 def paddington(plainbytes): #agrega bytes para realizar el padding de acuerdo al algoritmo
+	#if ternario, 16 bytes si es congruente a 0 mod 16, si no a 16 menos el modulo
 	bytesmissing = 16 if len(plainbytes) % 16 == 0 else 16-(len(plainbytes) % 16)
 	while True:
 		plainbytes.append(bytesmissing)
 		if len(plainbytes) % 16 == 0:
 			break
 
-def checksum(paddedbytes): 
+def checksum(paddedbytes): #generacion del checksum
 	chksm = [0] * 16 #inicializacion de lista con 16 ceros
 	L = 0
 	for i in range(int(len(paddedbytes)/16)):
 		for j in range(16):
 			c = paddedbytes[i*16+j]
-			L = chksm[j] = pi_s[ c ^ L]
+			L = chksm[j] = chksm[j] ^ pi_s[ c ^ L]
 	paddedbytes+= chksm
 
-def hashing(inputbytes):
+def hashing(inputbytes): #funcion de hashing
 	digest_buffer = [0]*48
 	for i in range(int(len(inputbytes)/16)):
 		for j in range(16):
@@ -54,19 +55,19 @@ def hashing(inputbytes):
 			t = (t+j)%256
 	return digest_buffer
 
-def hashingformat(raw_hash):
-	hexhash_list = [format(r, 'x') for r in raw_hash]
-	hexhash_string = ''.join(hexhash_list)
+def hashingformat(raw_hash): #convierte la lista con bytes a un string en formato hexadecimal
+	hexhash_list = [format(r, 'x') for r in raw_hash] #lista de hexa
+	hexhash_string = ''.join(hexhash_list) #string de hexa
 	return hexhash_string
 
 
-lines = ["12345678901234567890123456789012345678901234567890123456789012345678901234567890"]
-#for line in fileinput.input():
-# 	lines.append(line.replace('\n',''))
+lines = []
+for line in fileinput.input():
+ 	lines.append(line.replace('\n',''))
 
-messagebytes = bytelist(lines[0])
-paddington(messagebytes)
-checksum(messagebytes)
-final_hash = hashing(messagebytes)[0:16]
-print(hashingformat(final_hash))
+messagebytes = bytelist(lines[0]) #datos de entrada a lista de bytes
+paddington(messagebytes) #se añade padding
+checksum(messagebytes) #se calcula el padding
+final_hash = hashing(messagebytes)[0:16] #calculamos el hash y tomamos los primeros 16 bytes del digest
+print(hashingformat(final_hash)) #mostramos el hash en string hexadecimal
 
