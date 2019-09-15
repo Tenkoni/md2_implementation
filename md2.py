@@ -71,3 +71,4 @@ checksum(messagebytes) #se calcula el padding
 final_hash = hashing(messagebytes)[0:16] #calculamos el hash y tomamos los primeros 16 bytes del digest
 print(hashingformat(final_hash)) #mostramos el hash en string hexadecimal
 
+#trash comment, just to force the commit 
