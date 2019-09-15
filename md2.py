@@ -63,10 +63,8 @@ def hashingformat(raw_hash): #convierte la lista con bytes a un string en format
 
 lines = []
 for line in fileinput.input():
-	if "" in line:
-		lines.append(line.replace('""\n',''))
-	else:
- 		lines.append(line.replace('\n',''))
+ 	lines.append(line.replace('\n',''))
+if lines[1] == "\"\""
 
 messagebytes = bytelist(lines[0]) #datos de entrada a lista de bytes
 paddington(messagebytes) #se añade padding
