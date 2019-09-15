@@ -56,7 +56,7 @@ def hashing(inputbytes): #funcion de hashing
 	return digest_buffer
 
 def hashingformat(raw_hash): #convierte la lista con bytes a un string en formato hexadecimal
-	hexhash_list = [format(r, 'x') for r in raw_hash] #lista de hexa
+	hexhash_list = [format(r, '02x') for r in raw_hash] #lista de hexa con padding a cero en caso de ser necesario
 	hexhash_string = ''.join(hexhash_list) #string de hexa
 	return hexhash_string
 
@@ -70,5 +70,3 @@ paddington(messagebytes) #se añade padding
 checksum(messagebytes) #se calcula el padding
 final_hash = hashing(messagebytes)[0:16] #calculamos el hash y tomamos los primeros 16 bytes del digest
 print(hashingformat(final_hash)) #mostramos el hash en string hexadecimal
-
-#trash comment, just to force the commit 
